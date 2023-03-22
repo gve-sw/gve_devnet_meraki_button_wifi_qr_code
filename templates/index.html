@@ -1,0 +1,25 @@
+{% extends "masterpage.html" %}
+
+{% block content %}
+<div class="section">
+		<div class="flex flex-center absolute-center">
+			<div class="panel panel--bordered panel--raised panel--loose dbl-padding" style="scale:2">
+				<div class="subtitle text-center"><span class="text-danger"><b>SSID:</b></span> {{ssid_name}}</div>
+				{% if (qr_exists == true) and (qr_disabled == false) %}
+					<div class="section text-center">
+						<img class="image-size-128" src="{{url_for('static', filename='qr_codes/' + ssid_name + '.png')}}">
+					</div>
+					<div class="text-small text-center"><b>Password:</b> {{ssid_password}}</div>
+				{% elif qr_exists == false %}
+					<br>
+					<div class="subtitle text-center"><span class="text-danger"><b>No QR Code Found.</b></span> Click the <b>MT30 Button</b> to create a QR Code!</div>
+				{% elif qr_disabled == true %}
+					<br>
+					<div class="subtitle text-center"><span class="text-danger"><b>SSID Disabled.</b></span> Click the <b>MT30 Button</b> to re-enable!</div>
+					<br>
+					<div class="subtitle text-center"><b>Note: </b>Please wait up to 30 seconds before refreshing the page.</div>
+				{% endif %}
+			</div>
+		</div>
+</div>
+{% endblock %}
