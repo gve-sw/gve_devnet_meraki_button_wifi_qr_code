@@ -2,10 +2,13 @@
 
 Use a Meraki MT30 button to enabled/disable a Meraki Wi-Fi SSID and generate a QR code allowing users to join the Wi-Fi network.
 
-The password (and corresponding QR code) is randomized every time the button is pressed.
-
 **Note:**
 Only Open and PSK Authentication modes are supported at this time.
+
+If applicable, the password (and corresponding QR code) depend on password policy chosen. Options include:
+1. Maintain the existing password
+2. Randomize the password
+3. Randomly select from a list of valid passwords
 
 
 ## Contacts
@@ -40,7 +43,7 @@ The script requires being reachable over an internet accessible URL to receive t
 1. Download ngrok on the [official website](https://ngrok.com/download).
 2. Extract the folder files
 3. Run the ngrok.exe by double-clicking on the file
-4. Type the command ngrok http 8080 and press enter
+4. Type the command `ngrok http 5000` and press enter
 5. Note the https redirect URL for a later step
 ![](IMAGES/ngrok.png)
 
@@ -80,7 +83,7 @@ It is required to define a Webhook HTTP server and to configure a MT30 button au
 ## Script setup
 
 1. Clone this repository with `git clone [repository name]`
-2. Add Meraki API key, Webhook shared secret, Meraki org name, Meraki network name (containing SSID), and SSID name to environment variables located in `config.py` 
+2. Add Meraki API key, Webhook shared secret, Meraki org name, Meraki network name (containing SSID), and SSID name to environment variables located in `config.py`.
 ```python
 MERAKI_API_KEY = ""
 SHARED_SECRET = ""
@@ -88,13 +91,23 @@ ORG_NAME = ""
 NETWORK_NAME = ""
 SSID_NAME = ""
 ```
-3. Set up a Python virtual environment. Make sure Python 3 is installed in your environment, and if not, you may download Python [here](https://www.python.org/downloads/). Once Python 3 is installed in your environment, you can activate the virtual environment with the instructions found [here](https://docs.python.org/3/tutorial/venv.html).
-4. Install the requirements with `pip3 install -r requirements.txt`
+3. Select password policy and provide list of usable passwords (if option `3` is selected) in `config.py`
+```python
+# Password methodology choice. Only applicable to SSIDs that use PSK. See Available options:
+# 1. Same Password (set originally in Meraki Dashboard) -> Default Option
+# 2. Random Password (Randomly generate password)
+# 3. Password List (Randomly select from PASSWORD_LIST - must have at least 1 password in list, passwords must
+# conform to Meraki SSID password policy: >= 8 alphanumeric characters, etc.)
+PASSWORD_POLICY = 1
+PASSWORD_LIST = ['sample1', 'sample2']
+```
+4. Set up a Python virtual environment. Make sure Python 3 is installed in your environment, and if not, you may download Python [here](https://www.python.org/downloads/). Once Python 3 is installed in your environment, you can activate the virtual environment with the instructions found [here](https://docs.python.org/3/tutorial/venv.html).
+5. Install the requirements with `pip3 install -r requirements.txt`
 
 ## Usage
 To run the program, use the command:
 ```
-$ python3 app.py
+$ flask run
 ```
 Press the MT30 button, and the automation workflow will trigger.
 
