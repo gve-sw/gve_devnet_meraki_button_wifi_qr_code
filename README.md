@@ -37,8 +37,8 @@ In order to use the Meraki API, you need to enable the API for your organization
 
 > Note: You can add your account as Full Organization Admin to your organizations by following the instructions [here](https://documentation.meraki.com/General_Administration/Managing_Dashboard_Access/Managing_Dashboard_Administrators_and_Permissions).
 
-### Make Local Application Reachable of the Internet
-The script requires being reachable over an internet accessible URL to receive the Meraki MT30 Webhook events. Therefore, it can be deployed on different IaaS platforms like Heroku, Amazon Web Services Lambda, Google Cloud Platform (GCP) etc. . For simplicity, we use the tool ngrok here.
+### Make Local Application Reachable over the Internet
+The script requires being reachable over an internet accessible URL to receive the Meraki MT30 Webhook events. Therefore, it can be deployed on different IaaS platforms like Heroku, Amazon Web Services Lambda, Google Cloud Platform (GCP) etc. . For simplicity, we use the `ngrok` tool here.
 
 1. Download ngrok on the [official website](https://ngrok.com/download).
 2. Extract the folder files
