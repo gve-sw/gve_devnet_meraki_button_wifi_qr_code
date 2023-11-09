@@ -26,11 +26,20 @@ import sys
 
 import meraki
 import wifi_qrcode_generator as qr
+from dotenv import load_dotenv
 from flask import Flask, request, render_template, redirect, url_for
 from rich.console import Console
 from rich.panel import Panel
 
-from config import *
+import config
+
+# Load ENV Variable
+load_dotenv()
+MERAKI_API_KEY = os.getenv("MERAKI_API_KEY")
+SHARED_SECRET = os.getenv("SHARED_SECRET")
+ORG_NAME = os.getenv("ORG_NAME")
+NETWORK_NAME = os.getenv("NETWORK_NAME")
+SSID_NAME = os.getenv("SSID_NAME")
 
 # Flask and Meraki
 app = Flask(__name__)
@@ -145,7 +154,7 @@ def select_from_list_ssid_passcode(ssid_number):
     """
 
     # Randomly select Wi-Fi password from PASSWORD_LIST
-    random_psk = secrets.choice(PASSWORD_LIST)
+    random_psk = secrets.choice(config.PASSWORD_LIST)
 
     # Update SSID with new password
     dashboard.wireless.updateNetworkWirelessSsid(networkId=network_id, number=ssid_number, psk=random_psk)
@@ -255,11 +264,11 @@ def button_press():
                 if new_ssid_details['authMode'] == 'psk':
 
                     # If Password Policy is 1, use existing password
-                    if PASSWORD_POLICY == 1:
+                    if config.PASSWORD_POLICY == 1:
                         new_ssid_details['psk'] = existing_password
                         console.print(f'Password kept the same: [green]{new_ssid_details["psk"]}[/]')
                     # If Password Policy is 2, use random password
-                    elif PASSWORD_POLICY == 2:
+                    elif config.PASSWORD_POLICY == 2:
                         new_ssid_details['psk'] = random_ssid_passcode(new_ssid_details['number'])
                         console.print(f'Password changed to [green]{new_ssid_details["psk"]}[/]')
                     # Password Policy is 3, randomly select from Password List
@@ -308,15 +317,15 @@ if ssid_details is None:
     sys.exit(-1)
 
 # Password Policy sanity check
-if PASSWORD_POLICY not in [1, 2, 3]:
-    console.print(f'[red]Error:[/] PASSWORD_POLICY of {PASSWORD_POLICY} is an invalid choice!')
+if config.PASSWORD_POLICY not in [1, 2, 3]:
+    console.print(f'[red]Error:[/] PASSWORD_POLICY of {config.PASSWORD_POLICY} is an invalid choice!')
     sys.exit(-1)
-elif PASSWORD_POLICY == 3 and len(PASSWORD_LIST) == 0:
-    console.print(f'[red]Error:[/] PASSWORD_POLICY of {PASSWORD_POLICY} selected but PASSWORD_LIST is empty!')
+elif config.PASSWORD_POLICY == 3 and len(config.PASSWORD_LIST) == 0:
+    console.print(f'[red]Error:[/] PASSWORD_POLICY of {config.PASSWORD_POLICY} selected but PASSWORD_LIST is empty!')
     sys.exit(-1)
 
 # If Password Policy 1 selected (same password) -> store password in global variable
-if PASSWORD_POLICY == 1 and ssid_details['authMode'] == 'psk':
+if config.PASSWORD_POLICY == 1 and ssid_details['authMode'] == 'psk':
     existing_password = ssid_details['psk']
 
 console.print(Panel.fit(f"Starting Flask App...", title="Step 3"))

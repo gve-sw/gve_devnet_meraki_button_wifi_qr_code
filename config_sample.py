@@ -1,9 +1,3 @@
-MERAKI_API_KEY = ""
-SHARED_SECRET = ""
-ORG_NAME = ""
-NETWORK_NAME = ""
-SSID_NAME = ""
-
 # Password methodology choice. Only applicable to SSIDs that use PSK. See Available options:
 # 1. Same Password (set originally in Meraki Dashboard) -> Default Option
 # 2. Random Password (Randomly generate password)

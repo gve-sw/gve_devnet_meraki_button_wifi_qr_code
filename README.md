@@ -83,7 +83,8 @@ It is required to define a Webhook HTTP server and to configure a MT30 button au
 ## Script setup
 
 1. Clone this repository with `git clone [repository name]`
-2. Add Meraki API key, Webhook shared secret, Meraki org name, Meraki network name (containing SSID), and SSID name to environment variables located in `config.py`.
+2. Rename the `.env_sample` file to `.env`. Rename `config_sample.py` to `config.py`.
+3. Add Meraki API key, Webhook shared secret, Meraki org name, Meraki network name (containing SSID), and SSID name to environment variables located in `.env`.
 ```python
 MERAKI_API_KEY = ""
 SHARED_SECRET = ""
@@ -91,7 +92,7 @@ ORG_NAME = ""
 NETWORK_NAME = ""
 SSID_NAME = ""
 ```
-3. Select password policy and provide list of usable passwords (if option `3` is selected) in `config.py`
+4. Select password policy and provide list of usable passwords (if option `3` is selected) in `config.py`
 ```python
 # Password methodology choice. Only applicable to SSIDs that use PSK. See Available options:
 # 1. Same Password (set originally in Meraki Dashboard) -> Default Option
@@ -101,8 +102,8 @@ SSID_NAME = ""
 PASSWORD_POLICY = 1
 PASSWORD_LIST = ['sample1', 'sample2']
 ```
-4. Set up a Python virtual environment. Make sure Python 3 is installed in your environment, and if not, you may download Python [here](https://www.python.org/downloads/). Once Python 3 is installed in your environment, you can activate the virtual environment with the instructions found [here](https://docs.python.org/3/tutorial/venv.html).
-5. Install the requirements with `pip3 install -r requirements.txt`
+5. Set up a Python virtual environment. Make sure Python 3 is installed in your environment, and if not, you may download Python [here](https://www.python.org/downloads/). Once Python 3 is installed in your environment, you can activate the virtual environment with the instructions found [here](https://docs.python.org/3/tutorial/venv.html).
+6. Install the requirements with `pip3 install -r requirements.txt`
 
 ## Usage
 To run the program, use the command:
